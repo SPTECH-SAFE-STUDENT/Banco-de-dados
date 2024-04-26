@@ -1,3 +1,4 @@
+drop database safe_student ;
 
 create database safe_student;
 
@@ -34,17 +35,25 @@ CREATE TABLE Sensores (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100),
     localizacao VARCHAR(100),
-    tipo VARCHAR(50) CHECK (tipo IN ('bloqueio', 'temperatura')),
+    tipo VARCHAR(50),
     fkveiculo INT,
     FOREIGN KEY (fkveiculo) REFERENCES Veiculo(idVeiculo)
 );
 
 
-CREATE TABLE leituraTemperatura (
+CREATE TABLE LeituraTemp (
     id INT AUTO_INCREMENT PRIMARY KEY,
     temperatura DECIMAL (5,2),
-        fksensor INT,
-    FOREIGN KEY (fksensor) REFERENCES Sensores(id) 
+    fksensorTemp INT,
+    FOREIGN KEY (fksensorTemp) REFERENCES Sensores(id) 
+);
+
+CREATE TABLE LeituraProx (
+id int auto_increment primary key , 
+chave int,
+fksensorProx int ,
+check (chave in('0', '1')),
+FOREIGN KEY (fksensorProx) references Sensores(id)
 );
 
 
@@ -100,17 +109,33 @@ INSERT INTO Sensores (nome, localizacao, tipo, fkveiculo) VALUES
 
 -- Inserindo dados na tabel leitura 
 -- 0 e 1 representam se o lugar está ocupado ou não 
-INSERT INTO LeituraSensores (status, fksensor, temperatura) VALUES
-(1, 1, 25.50),
-(0, 2, 20.00),
-(1, 3, 22.75),
-(1, 4, 26.80),
-(0, 5, 19.30),
-(1, 6, 23.10),
-(0, 7, 18.90),
-(1, 8, 24.20),
-(1, 9, 22.00),
-(0, 10, 20.50);
+INSERT INTO LeituraTemp (fksensorTemp, temperatura) 
+VALUES 
+    (1, 25.50),
+    (2, 26.75),
+    (1, 24.80),
+    (3, 27.30),
+    (2, 25.00),
+    (1, 26.20),
+    (3, 24.90),
+    (2, 27.80),
+    (1, 25.75),
+    (3, 26.40);
+
+-- Inserindo dados na tabela leitura 
+INSERT INTO LeituraProx (fksensorProx, chave) 
+VALUES 
+    (1, 1),
+    (2, 0),
+    (3, 1),
+    (1, 0),
+    (2, 1),
+    (3, 0),
+    (1, 1),
+    (2, 0),
+    (3, 1),
+    (1, 0);
+
 
 -- inserindo dados na tabela alertas 
 -- Inserir dados de exemplo na tabela Alertas com números de 1 a 10 nas FKs
@@ -129,7 +154,7 @@ INSERT INTO Alertas (tipo, descricao, data_hora, fksensores) VALUES
 
 
 -- Selecionar todos os cadastros
-SELECT * FROM cadastro;
+SELECT * FROM Usuário;
 
 -- Selecionar todos os veículos
 SELECT * FROM Veiculo;
@@ -140,8 +165,12 @@ SELECT * FROM Alertas;
 -- Selecionar todos os sensores
 SELECT * FROM Sensores;
 
--- Selecionar todas as leituras de temperatura
-SELECT * FROM SensorTemperatura;
+-- Selecionar leitura da temperatura
+SELECT * FROM LeituraTemp ;
+
+-- Selecionar a leitura proximidade 
+SELECT * FROM LeituraProx;
+
 
 -- selecionar a tabela cadastro mostrando o veiculo que ela está ligada 
 select *
@@ -154,10 +183,14 @@ from sensores
 join veiculo on sensores.fkveiculo = veiculo .idVeiculo;
 -- selecionar a tabela leitura mostrando sua ligação 
 select *
-from LeituraSensores as leitura
-join sensores on leitura.fksensor = sensores .id;
+from LeituraProx as leitura
+join sensores on leitura.fksensorProx = sensores.id;
+
+select *
+from LeituraTemp as leitura
+join sensores on leitura.fksensorTemp = sensores.id;
 
 -- selecionar a tabela alertas e suas fks
 select *
-from alertas 
-join sensores on leitura.fksensor = sensores .id;
+from alertas as alert
+join sensores on alert.fksensores = sensores.id;
