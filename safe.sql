@@ -1,5 +1,3 @@
-drop database safe_student ;
-
 create database safe_student;
 
 use safe_student;
@@ -43,7 +41,7 @@ CREATE TABLE Sensores (
 
 CREATE TABLE LeituraTemp (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    temperatura DECIMAL (5,2),
+    temperatura DECIMAL (4,2),
     fksensorTemp INT,
     FOREIGN KEY (fksensorTemp) REFERENCES Sensores(id) 
 );
@@ -51,8 +49,7 @@ CREATE TABLE LeituraTemp (
 CREATE TABLE LeituraProx (
 id int auto_increment primary key , 
 chave int,
-fksensorProx int ,
-check (chave in('0', '1')),
+fksensorProx int,
 FOREIGN KEY (fksensorProx) references Sensores(id)
 );
 
