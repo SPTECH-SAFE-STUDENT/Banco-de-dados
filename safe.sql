@@ -93,16 +93,16 @@ VALUES
 
 -- inserindo dados na tabela sensores 
 INSERT INTO Sensores (nome, localizacao, tipo, fkveiculo) VALUES
-('Sensor1', 'Sala', 'bloqueio', 1),
-('Sensor2', 'Cozinha', 'temperatura', 2),
-('Sensor3', 'Quarto 1', 'temperatura', 3),
-('Sensor4', 'Quarto 2', 'bloqueio', 4),
-('Sensor5', 'Sala', 'temperatura', 5),
-('Sensor6', 'Banheiro', 'temperatura', 6),
-('Sensor7', 'Garagem', 'bloqueio', 7),
-('Sensor8', 'Área de serviço', 'temperatura', 8),
-('Sensor9', 'Escritório', 'temperatura', 9),
-('Sensor10', 'Varanda', 'bloqueio', 10);
+('Sensor1', 'Banco', 'bloqueio', 1),
+('Sensor2', 'Frente', 'temperatura', 2),
+('Sensor3', 'Interio', 'temperatura', 3),
+('Sensor4', 'Banco', 'bloqueio', 4),
+('Sensor5', 'Teto', 'temperatura', 5),
+('Sensor6', 'Frente', 'temperatura', 6),
+('Sensor7', 'Banco', 'bloqueio', 7),
+('Sensor8', 'central', 'temperatura', 8),
+('Sensor9', 'interior', 'temperatura', 9),
+('Sensor10', 'Banco', 'bloqueio', 10);
 
 -- Inserindo dados na tabel leitura 
 -- 0 e 1 representam se o lugar está ocupado ou não 
