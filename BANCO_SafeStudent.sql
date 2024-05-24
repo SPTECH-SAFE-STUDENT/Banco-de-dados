@@ -1,4 +1,4 @@
-create database safe_student;
+create database if not exists safe_student;
 
 use safe_student;
 
@@ -43,6 +43,7 @@ CREATE TABLE LeituraTemp (
     id INT AUTO_INCREMENT PRIMARY KEY,
     temperatura DECIMAL (4,2),
     fksensorTemp INT,
+    dataHora datetime,
     FOREIGN KEY (fksensorTemp) REFERENCES Sensores(id) 
 );
 
@@ -50,6 +51,7 @@ CREATE TABLE LeituraProx (
 id int auto_increment primary key , 
 chave int,
 fksensorProx int,
+dataHora datetime,
 FOREIGN KEY (fksensorProx) references Sensores(id)
 );
 
@@ -93,45 +95,29 @@ VALUES
 
 -- inserindo dados na tabela sensores 
 INSERT INTO Sensores (nome, localizacao, tipo, fkveiculo) VALUES
-('Sensor1', 'Banco', 'bloqueio', 1),
-('Sensor2', 'Frente', 'temperatura', 2),
-('Sensor3', 'Interio', 'temperatura', 3),
-('Sensor4', 'Banco', 'bloqueio', 4),
-('Sensor5', 'Teto', 'temperatura', 5),
-('Sensor6', 'Frente', 'temperatura', 6),
-('Sensor7', 'Banco', 'bloqueio', 7),
-('Sensor8', 'central', 'temperatura', 8),
-('Sensor9', 'interior', 'temperatura', 9),
-('Sensor10', 'Banco', 'bloqueio', 10);
+('Sensor1', 'Frente', 'temperatura', 1),
+('Sensor2', 'Fundo', 'temperatura', 1),
+('Sensor3', 'Banco', 'bloqueio', 1),
+('Sensor4', 'Banco', 'bloqueio', 1),
+('Sensor5', 'Banco', 'bloqueio', 1),
+('Sensor6', 'Banco', 'bloqueio', 1),
+('Sensor7', 'Banco', 'bloqueio', 1),
+('Sensor8', 'Banco', 'bloqueio', 1),
+('Sensor9', 'Banco', 'bloqueio', 1),
+('Sensor10', 'Banco', 'bloqueio', 1),
+('Sensor11', 'Banco', 'bloqueio', 1),
+('Sensor12', 'Banco', 'bloqueio', 1),
+('Sensor13', 'Banco', 'bloqueio', 1),
+('Sensor14', 'Banco', 'bloqueio', 1),
+('Sensor15', 'Banco', 'bloqueio', 1),
+('Sensor16', 'Banco', 'bloqueio', 1);
 
 -- Inserindo dados na tabel leitura 
 -- 0 e 1 representam se o lugar está ocupado ou não 
-INSERT INTO LeituraTemp (fksensorTemp, temperatura) 
-VALUES 
-    (1, 25.50),
-    (2, 26.75),
-    (1, 24.80),
-    (3, 27.30),
-    (2, 25.00),
-    (1, 26.20),
-    (3, 24.90),
-    (2, 27.80),
-    (1, 25.75),
-    (3, 26.40);
+-- INSERT INTO LeituraTemp (fksensorTemp, temperatura) VALUES (1, 25.50),(2, 26.75),(1, 24.80),(3, 27.30),(2, 25.00),(1, 26.20),(3, 24.90),(2, 27.80),(1, 25.75),(3, 26.40);
 
 -- Inserindo dados na tabela leitura 
-INSERT INTO LeituraProx (fksensorProx, chave) 
-VALUES 
-    (1, 1),
-    (2, 0),
-    (3, 1),
-    (1, 0),
-    (2, 1),
-    (3, 0),
-    (1, 1),
-    (2, 0),
-    (3, 1),
-    (1, 0);
+-- INSERT INTO LeituraProx (fksensorProx, chave) VALUES (1, 1),(2, 0),(3, 1),(1, 0),(2, 1),(3, 0),(1, 1),(2, 0),(3, 1),(1, 0);
 
 
 -- inserindo dados na tabela alertas 
@@ -161,7 +147,7 @@ SELECT * FROM Alertas;
 
 -- Selecionar todos os sensores
 SELECT * FROM Sensores;
-
+-- apresentar
 -- Selecionar leitura da temperatura
 SELECT * FROM LeituraTemp ;
 
@@ -169,25 +155,22 @@ SELECT * FROM LeituraTemp ;
 SELECT * FROM LeituraProx;
 
 
--- selecionar a tabela cadastro mostrando o veiculo que ela está ligada 
-select *
-from Usuário 
-join veiculo on veiculo.fkcadastro = Usuário.idCadastro;
+
 
 -- selcionar a tabela sensores e veiculo mostrando a fk 
 select *
-from sensores
-join veiculo on sensores.fkveiculo = veiculo .idVeiculo;
+from Sensores
+join Veiculo on Sensores.fkveiculo = Veiculo.idVeiculo;
+
 -- selecionar a tabela leitura mostrando sua ligação 
+-- apresentar
 select *
 from LeituraProx as leitura
-join sensores on leitura.fksensorProx = sensores.id;
+join Sensores on leitura.fksensorProx = Sensores.id;
 
 select *
 from LeituraTemp as leitura
-join sensores on leitura.fksensorTemp = sensores.id;
+join Sensores on leitura.fksensorTemp = Sensores.id;
 
--- selecionar a tabela alertas e suas fks
-select *
-from alertas as alert
-join sensores on alert.fksensores = sensores.id;
+
+
