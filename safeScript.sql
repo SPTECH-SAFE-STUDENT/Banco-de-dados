@@ -1,4 +1,4 @@
-drop database safe_student;
+
 create database safe_student;
 
 use safe_student;
@@ -125,9 +125,9 @@ VALUES
     (2, 25.00),
     (1, 26.20),
     (3, 24.90),
-    (2, 27.80),
-    (1, 25.75),
-    (3, 26.40);
+    (2, 17.80),
+    (1, 15.75),
+    (3, 18.40);
 
 -- Inserindo dados na tabela leitura 
 INSERT INTO LeituraProx (fksensorProx, chave) 
@@ -201,3 +201,27 @@ join sensores on leitura.fksensorTemp = sensores.id;
 select *
 from alertas as alert
 join sensores on alert.fksensores = sensores.id;
+
+-- Select com case para verificar se a temperatura está ou não em alerta
+create view alertaMaximo as
+select sens.id, sens.nome, sens.tipo, sens.fkveiculo, temp.temperatura,
+	case when (temp.temperatura) >= 25 then 'Temperatura Acima da média'
+    end 'Alerta'
+from sensores as sens
+join leituratemp as temp on temp.fksensorTemp = sens.id
+where temp.temperatura >= 25;
+
+create view alertaMinimo as
+select sens.id, sens.nome, sens.tipo, sens.fkveiculo, temp.temperatura,
+	case when (temp.temperatura) <= 18 then 'Temperatura Abaixo da média'
+	end 'Alerta'
+from sensores as sens
+join leituratemp as temp on temp.fksensorTemp = sens.id
+where temp.temperatura <= 18;
+
+select * from alertaMinimo;
+select * from alertaMaximo;
+
+-- os dois tipos de alertas
+select * from alertaMinimo
+join alertaMaximo;
